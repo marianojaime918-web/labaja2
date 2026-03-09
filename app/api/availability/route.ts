@@ -1,8 +1,9 @@
-import { prisma } from "@/lib/prisma"
+export const dynamic = 'force-dynamic'
 import { NextResponse } from "next/server"
 import { startOfDay, endOfDay, parse, addMinutes, format } from "date-fns"
 
 export async function GET(request: Request) {
+  const { prisma } = await import("@/lib/prisma")
   const { searchParams } = new URL(request.url)
   const fieldId = searchParams.get("fieldId")
   const dateString = searchParams.get("date") // YYYY-MM-DD

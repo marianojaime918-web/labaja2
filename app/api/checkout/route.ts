@@ -1,9 +1,10 @@
-import { prisma } from "@/lib/prisma"
+export const dynamic = 'force-dynamic'
 import { NextResponse } from "next/server"
 import Stripe from "stripe"
 
 export async function POST(request: Request) {
   try {
+    const { prisma } = await import("@/lib/prisma")
     const secretKey = process.env.STRIPE_SECRET_KEY
     if (!secretKey) {
       return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 })
