@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GolfField {
+  id             String         @id @default(cuid())
+  name           String
+  description    String?
+  imageUrl       String?
+  pricePerPlayer Decimal
+  maxPlayers     Int            @default(4)
+  isActive       Boolean        @default(true)
+  bookings       Booking[]
+  availabilities Availability[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Availability {
+  id              String    @id @default(cuid())
+  fieldId         String
+  field           GolfField @relation(fields: [fieldId], references: [id])
+  dayOfWeek       Int       // 0=Domingo, 1=Lunes, ...
+  startTime       String    // "08:00"
+  endTime         String    // "18:00"
+  intervalMinutes Int       @default(15) // Duración del slot en minutos
+  isActive        Boolean   @default(true)
+
+  @@unique([fieldId, dayOfWeek])
+}
+
+model Booking {
+  id              String    @id @default(cuid())
+  fieldId         String
+  field           GolfField @relation(fields: [fieldId], references: [id])
+  bookingDate     DateTime  // Fecha y hora exacta del tee time
+  numberOfPlayers Int
+  totalPrice      Decimal
+  customerName    String
+  customerEmail   String
+  status          String    // "PENDING", "PAID", "CANCELLED"
+  stripeSessionId String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model PageContent {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  content   String   // Stored as JSON string
+  updatedAt DateTime @updatedAt
+}
