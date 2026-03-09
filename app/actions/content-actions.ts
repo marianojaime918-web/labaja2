@@ -1,9 +1,9 @@
 'use server'
 
-import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 
 export async function getPageContent(slug: string) {
+  const { prisma } = await import("@/lib/prisma")
   const page = await prisma.pageContent.findUnique({
     where: { slug },
   })
@@ -11,6 +11,7 @@ export async function getPageContent(slug: string) {
 }
 
 export async function getAllPages() {
+  const { prisma } = await import("@/lib/prisma")
   const pages = await prisma.pageContent.findMany({
     orderBy: { title: 'asc' }
   })
@@ -22,6 +23,7 @@ export async function updatePageContent(slug: string, content: string) {
     // Validate JSON
     JSON.parse(content)
     
+    const { prisma } = await import("@/lib/prisma")
     await prisma.pageContent.update({
       where: { slug },
       data: { content },
