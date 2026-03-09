@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { getPageContent } from "@/app/actions/content-actions"
 import { ContentEditor } from "@/components/admin/content-editor"
 import { notFound } from "next/navigation"
