@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma"
+export const dynamic = 'force-dynamic'
 import { notFound } from "next/navigation"
 
 export default async function SuccessPage({
@@ -6,6 +6,7 @@ export default async function SuccessPage({
 }: {
   searchParams: Promise<{ session_id?: string; booking_id?: string }>
 }) {
+  const { prisma } = await import("@/lib/prisma")
   const { session_id, booking_id } = await searchParams
 
   if (!session_id || !booking_id) {
