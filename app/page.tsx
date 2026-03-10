@@ -1,5 +1,4 @@
 export const dynamic = 'force-dynamic'
-import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
@@ -7,6 +6,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { getPageContent } from "@/app/actions/content-actions"
 
 export default async function Home() {
+  const { prisma } = await import("@/lib/prisma")
   const fields = await prisma.golfField.findMany({
     where: { isActive: true },
   })

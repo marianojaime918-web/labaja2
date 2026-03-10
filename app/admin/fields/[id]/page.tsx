@@ -1,5 +1,4 @@
 export const dynamic = 'force-dynamic'
-import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,6 +13,7 @@ export default async function EditFieldPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  const { prisma } = await import("@/lib/prisma")
   const field = await prisma.golfField.findUnique({
     where: { id },
     include: {
@@ -42,6 +42,7 @@ export default async function EditFieldPage({
   async function updateField(formData: FormData) {
     "use server"
     
+    const { prisma } = await import("@/lib/prisma")
     const name = formData.get("name") as string
     const description = formData.get("description") as string
     const imageUrl = formData.get("imageUrl") as string

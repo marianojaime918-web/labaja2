@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic'
-import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 export default async function FieldsPage() {
+  const { prisma } = await import("@/lib/prisma")
   const fields = await prisma.golfField.findMany()
 
   return (

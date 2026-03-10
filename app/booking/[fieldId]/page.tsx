@@ -1,5 +1,4 @@
 export const dynamic = 'force-dynamic'
-import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { BookingForm } from "@/components/booking-form"
 import { SiteHeader } from "@/components/site-header"
@@ -12,6 +11,7 @@ export default async function BookingPage({
 }) {
   const { fieldId } = await params
 
+  const { prisma } = await import("@/lib/prisma")
   const field = await prisma.golfField.findUnique({
     where: { id: fieldId },
   })

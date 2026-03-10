@@ -1,8 +1,8 @@
 export const dynamic = 'force-dynamic'
-import { prisma } from "@/lib/prisma"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 export default async function BookingsPage() {
+  const { prisma } = await import("@/lib/prisma")
   const bookings = await prisma.booking.findMany({
     orderBy: { createdAt: "desc" },
     include: { field: true },
