@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma"
+export const dynamic = 'force-dynamic'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,6 +11,7 @@ export default function NewFieldPage() {
   async function createField(formData: FormData) {
     "use server"
     
+    const { prisma } = await import("@/lib/prisma")
     const name = formData.get("name") as string
     const description = formData.get("description") as string
     const imageUrl = formData.get("imageUrl") as string
