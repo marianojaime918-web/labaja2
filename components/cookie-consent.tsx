@@ -1,15 +1,21 @@
-"use client"
+ "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
 import Link from "next/link"
 
 export function CookieConsent() {
-  const [isVisible, setIsVisible] = useState(() => {
-    if (typeof window === "undefined") return false
-    return !localStorage.getItem("cookie-consent")
-  })
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    try {
+      const accepted = typeof window !== "undefined" ? localStorage.getItem("cookie-consent") : "true"
+      setIsVisible(!accepted)
+    } catch {
+      setIsVisible(true)
+    }
+  }, [])
 
   const acceptCookies = () => {
     localStorage.setItem("cookie-consent", "true")
@@ -19,7 +25,7 @@ export function CookieConsent() {
   if (!isVisible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 z-50 shadow-lg border-t border-gray-800">
+    <div suppressHydrationWarning className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 z-50 shadow-lg border-t border-gray-800">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex-1 text-sm text-gray-300">
           <p>
